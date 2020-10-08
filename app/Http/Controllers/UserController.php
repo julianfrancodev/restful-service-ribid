@@ -167,7 +167,8 @@ class UserController extends Controller
             $data = array(
                 'code'=> 200,
                 'status'=>'success',
-                'user'=> $user
+                'user'=> $user,
+                'changes'=> $user_update
             );
         }else{
             $data = array(
