@@ -80,7 +80,7 @@ class PostController extends Controller
                 $post->save();
 
                 $data = array(
-                    'code'=>400,
+                    'code'=>200,
                     'status'=>'success',
                     'post'=> $post
                 );
