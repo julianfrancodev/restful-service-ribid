@@ -21,7 +21,7 @@ class PostController extends Controller
     }
 
     public function index(){
-        $posts = Post::all()->load('category');
+        $posts = Post::all()->load('user')->load('category');
 
         return response()->json([
             'code'=> 200,
@@ -31,7 +31,7 @@ class PostController extends Controller
     }
 
     public function show($id){
-        $post = Post::find($id)->load('category');
+        $post = Post::find($id)->load('category')->load('category');
 
         if(is_object($post)){
             $data = array(
