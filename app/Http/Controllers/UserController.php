@@ -9,11 +9,13 @@ use App\Models\User;
 
 class UserController extends Controller
 {
-    public function pruebas(Request $request){
+    public function pruebas(Request $request)
+    {
         return "Accion de prueba UserController";
     }
 
-    public function register(Request $request){
+    public function register(Request $request)
+    {
         // TODO get all data from Post
 
         $json = $request->input('json', null);
@@ -21,66 +23,65 @@ class UserController extends Controller
         $params = json_decode($json); //object
 
         $params_array = json_decode($json, true); //array
-        if(!empty($params) && !empty($params_array)){
+        if (!empty($params) && !empty($params_array)) {
 
-        // TODO clean data
+            // TODO clean data
 
-        $params_array = array_map('trim', $params_array);
+            $params_array = array_map('trim', $params_array);
 
-        // TODO Validate all fields
+            // TODO Validate all fields
 
-        $messages = array(
-            'email.regex' => 'Agradecemos su interes en utilizar nuestro sistema. Sin embargo, por el momento ofrecemos este servicio a universidades',
-           );
-        $validate = \Validator::make($params_array,[
-            'name' => 'required|alpha',
-            'email' => 'required|email|max:255|unique:users|regex:/(.*).edu\.co$/i',
-            'password'=> 'required'
-        ],$messages);
-
-
-        if($validate->fails()){
-            $data = array(
-                'status' => 'error',
-                'code' => 404,
-                'errors'=> $validate->errors()
+            $messages = array(
+                'email.regex' => 'Agradecemos su interes en utilizar nuestro sistema. Sin embargo, por el momento ofrecemos este servicio a universidades',
             );
-        }else{
+            $validate = \Validator::make($params_array, [
+                'name' => 'required|alpha',
+                'email' => 'required|email|max:255|unique:users|regex:/(.*).edu\.co$/i',
+                'password' => 'required'
+            ], $messages);
 
-        // TODO cypher the password
 
-        $pwd =  hash('sha256',$params_array['password']);
-        // TODO Register the user
+            if ($validate->fails()) {
+                $data = array(
+                    'status' => 'error',
+                    'code' => 404,
+                    'errors' => $validate->errors()
+                );
+            } else {
 
-        $user = new User();
-        $user->name = $params_array['name'];
-        $user->email = $params_array['email'];
-        $user->password = $pwd;
-        $user->role = "ROLE_USER";
+                // TODO cypher the password
 
-        $user->save();
+                $pwd =  hash('sha256', $params_array['password']);
+                // TODO Register the user
 
+                $user = new User();
+                $user->name = $params_array['name'];
+                $user->email = $params_array['email'];
+                $user->password = $pwd;
+                $user->role = "ROLE_USER";
+
+                $user->save();
+
+                $data = array(
+                    'status' => 'success',
+                    'code' => 200,
+                    'message' => 'Usuario creado.',
+                    'user' => $user
+                );
+            }
+        } else {
             $data = array(
                 'status' => 'success',
                 'code' => 200,
-                'message'=> 'Usuario creado.',
-                'user'=> $user
+                'message' => 'Datos enviados no son correctos'
             );
-
         }
 
-    }else{
-        $data = array(
-            'status' => 'success',
-            'code' => 200,
-            'message'=> 'Datos enviados no son correctos'
-        );
+        return response()->json($data, $data['code']);
     }
 
-       return response()->json($data,$data['code']);
-    }
-
-    public function login(Request $request){
+    public function login(Request $request)
+    {
 
         $jwtAuth = new \JwtAuth();
 
@@ -92,34 +93,35 @@ class UserController extends Controller
 
         //TODO validate data
 
-        $validate = \Validator::make($params_array,[
+        $validate = \Validator::make($params_array, [
             'email' => 'required|email',
-            'password'=> 'required'
+            'password' => 'required'
         ]);
 
 
-        if($validate->fails()){
+        if ($validate->fails()) {
             $signup = array(
                 'status' => 'error',
                 'code' => 404,
-                'errors'=> $validate->errors()
+                'errors' => $validate->errors()
             );
-        }else{
+        } else {
             //TODO return token
-            $pwd =  hash('sha256',$params->password);
-            $signup = $jwtAuth->signup($params->email,$pwd);
+            $pwd =  hash('sha256', $params->password);
+            $signup = $jwtAuth->signup($params->email, $pwd);
 
-            if(!empty($params->gettoken)){
+            if (!empty($params->gettoken)) {
                 $signup = $jwtAuth->signup($params->email, $pwd, true);
             }
         }
 
 
 
-        return response()->json($signup,200);
+        return response()->json($signup, 200);
     }
 
-    public function update(Request $request){
+    public function update(Request $request)
+    {
 
 
         // TODO valide if user auth
@@ -129,10 +131,10 @@ class UserController extends Controller
         $checkToken = $jwtAuth->checkToken($token);
         //TODO get all data from Post
 
-        $json = $request->input('json',null);
+        $json = $request->input('json', null);
         $params_array = json_decode($json, true);
 
-        if($checkToken && !empty($params_array)){
+        if ($checkToken && !empty($params_array)) {
 
 
             //TODO get user indentify
@@ -143,12 +145,12 @@ class UserController extends Controller
             //TODO validate user data
             $messages = array(
                 'email.regex' => 'Agradecemos su interes en utilizar nuestro sistema. Sin embargo, por el momento ofrecemos este servicio a universidades',
-               );
-            $validate = \Validator::make($params_array,[
+            );
+            $validate = \Validator::make($params_array, [
                 'name' => 'required|alpha',
                 'email' => 'required|email|max:255|unique:users|regex:/(.*).edu\.co$/i',
-                'password'=> 'required'
-            ],$messages);
+                'password' => 'required'
+            ], $messages);
 
             //TODO clean data
 
@@ -160,99 +162,97 @@ class UserController extends Controller
 
             //TODO update user
 
-            $user_update = User::where('id',$user->sub)->update($params_array);
+            $user_update = User::where('id', $user->sub)->update($params_array);
 
             // TODO return $data
 
             $data = array(
-                'code'=> 200,
-                'status'=>'success',
-                'user'=> $user,
-                'changes'=> $params_array
+                'code' => 200,
+                'status' => 'success',
+                'user' => $user,
+                'changes' => $params_array
             );
-        }else{
+        } else {
             $data = array(
-                'code'=> 400,
-                'status'=>'error',
-                'message'=> 'El usuario no esta identificado'
+                'code' => 400,
+                'status' => 'error',
+                'message' => 'El usuario no esta identificado'
             );
         }
 
-        return response()->json($data,$data['code']);
+        return response()->json($data, $data['code']);
     }
 
-    public function upload(Request $request){
+    public function upload(Request $request)
+    {
 
         //TODO get all data
         $image = $request->file('file0');
 
         //TODO validate image
 
-        $validate = \Validator::make($request->all(),[
-            'file0'=>'required|image|mimes:jpg,jpeg,png,gif'
+        $validate = \Validator::make($request->all(), [
+            'file0' => 'required|image|mimes:jpg,jpeg,png,gif'
         ]);
 
         //TODO save file
-        if($image || !$validate.fails()){
-            $image_name = time().$image->getClientOriginalName();
+        if ($image || !$validate . fails()) {
+            $image_name = time() . $image->getClientOriginalName();
             \Storage::disk('users')->put($image_name, \File::get($image));
 
             $data = array(
-                'code'=>200,
-                'status'=>'success',
+                'code' => 200,
+                'status' => 'success',
                 'image' => $image_name
             );
-        }else{
+        } else {
             $data = array(
-                'code'=> 400,
-                'status'=>'error',
-                'message'=> 'Error al subir el archivo'
+                'code' => 400,
+                'status' => 'error',
+                'message' => 'Error al subir el archivo'
             );
         }
 
         return response()->json($data, $data['code']);
-
     }
 
-    public function getImage($filename){
+    public function getImage($filename)
+    {
 
         $isset = \Storage::disk('users')->get($filename);
 
-        if($isset){
+        if ($isset) {
             $file = \Storage::disk('users')->get($filename);
             return new Response($file, 200);
-        }else{
+        } else {
             $data = array(
-                'code'=> 404,
-                'status'=> 'error',
-                'message'=> 'La imagen no existe'
-            );
-        }
-
-        return response()->json($data,$data['code']);
-
-
-    }
-
-    public function detail($id){
-        $user = User::find($id);
-
-        if(is_object($user)){
-            $data = array(
-                'code'=> 200,
-                'status'=> 'success',
-                'user'=> $user
-            );
-        }else{
-            $data = array(
-                'code'=> 404,
-                'status'=> 'error',
-                'message'=> 'El usuario no existe'
+                'code' => 404,
+                'status' => 'error',
+                'message' => 'La imagen no existe'
             );
         }
 
         return response()->json($data, $data['code']);
-
     }
 
+    public function detail($id)
+    {
+        $user = User::find($id);
+
+        if (is_object($user)) {
+            $data = array(
+                'code' => 200,
+                'status' => 'success',
+                'user' => $user
+            );
+        } else {
+            $data = array(
+                'code' => 404,
+                'status' => 'error',
+                'message' => 'El usuario no existe'
+            );
+        }
+
+        return response()->json($data, $data['code']);
+    }
 }

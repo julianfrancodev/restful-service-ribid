@@ -5,20 +5,23 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Category;
+
 class PruebaController extends Controller
 {
-    public function index(){
-        $title ="Page for testing";
+    public function index()
+    {
+        $title = "Page for testing";
 
-        $pets = ["Dog","Cat","Horse"];
+        $pets = ["Dog", "Cat", "Horse"];
 
         return view('pruebas.index', array(
-            "pets"=> $pets,
+            "pets" => $pets,
             "title" => $title,
         ));
     }
 
-    public function testOrm(){
+    public function testOrm()
+    {
 
         // $posts = Post::all();
 
@@ -29,7 +32,7 @@ class PruebaController extends Controller
         $categories = Category::all();
 
         foreach ($categories as $category) {
-            echo "<h2>".$category->name."</h1>";
+            echo "<h2>" . $category->name . "</h1>";
         }
 
         die();
