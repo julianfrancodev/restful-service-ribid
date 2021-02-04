@@ -5,6 +5,7 @@ use App\Http\Controllers\PruebaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ResPostController;
 use App\Http\Middleware\ApiAuthMiddleware;
 
 /*
@@ -42,9 +43,14 @@ Route::resource('/category', CategoryController::class);
 //** Routes for posts */
 
 Route::resource('/post', PostController::class);
-Route::post('post/upload/',[PostController::class, 'upload']);
-Route::get('post/image/{filename}',[PostController::class, 'getImage']);
+
 Route::get('post/category/{id}',[PostController::class,'getPostsByCategory']);
 Route::get('post/user/{id}',[PostController::class,'getPostsByUser']);
 
 
+//** Routes for respost */
+
+Route::resource('respost', ResPostController::class);
+// Route::get('respost/getResPostByPost/{id}', ResPostController::class,'getResPostByPost');
+Route::post('respost/upload/',[ResPostController::class, 'upload']);
+Route::get('respost/file/{filename}',[ResPostController::class, 'getImage']);

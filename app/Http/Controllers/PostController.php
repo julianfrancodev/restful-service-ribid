@@ -34,7 +34,7 @@ class PostController extends Controller
 
     public function show($id)
     {
-        $post = Post::find($id)->load('category')->load('category');
+        $post = Post::find($id)->load('category');
 
         if (is_object($post)) {
             $data = array(
@@ -63,24 +63,20 @@ class PostController extends Controller
 
             $validate = \Validator::make($params_array, [
                 'title' => 'required',
-                'content' => 'required',
                 'category_id' => 'required',
-                'image' => 'required'
             ]);
 
             if ($validate->fails()) {
                 $data = array(
                     'code' => 400,
-                    'status' => 'success',
-                    'message' => 'No se ha guardado el post'
+                    'status' => 'error',
+                    'message' => 'Validacion fallida en los datos'
                 );
             } else {
                 $post = new Post();
                 $post->user_id = $user->sub;
                 $post->category_id = $params->category_id;
                 $post->title = $params->title;
-                $post->content = $params->content;
-                $post->image = $params->image;
                 $post->save();
 
                 $data = array(
@@ -184,54 +180,6 @@ class PostController extends Controller
         return response()->json($data, $data['code']);
     }
 
-    public function upload(Request $request)
-    {
-        $image = $request->file('file0');
-
-        $validate = \Validator::make($request->all(), [
-            'file0' => 'required|image|mimes:jpg,jpeg,png'
-        ]);
-
-        if (!$image || $validate->fails()) {
-            $data = array(
-                'code' => 400,
-                'status' => 'error',
-                'message' => 'Error al subir la imagen'
-            );
-        } else {
-            $image_name = time() . $image->getClientOriginalName();
-            \Storage::disk('docs')->put($image_name, \File::get($image));
-
-            $data = array(
-                'code' => 200,
-                'status' => 'success',
-                'image' => $image_name
-            );
-        }
-
-        return response()->json($data, $data['code']);
-    }
-
-
-    public function getImage($filename)
-    {
-        $isset = \Storage::disk('docs')->exists($filename);
-
-        if ($isset) {
-
-            $file = \Storage::disk('docs')->get($filename);
-
-            return new Response($file, 200);
-        } else {
-            $data = array(
-                'code' => 404,
-                'status' => 'error',
-                'message' => 'Imagen no existe.'
-            );
-        }
-
-        return response()->json($data, $data['code']);
-    }
 
     public function getPostsByCategory($id)
     {

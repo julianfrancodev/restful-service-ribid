@@ -12,19 +12,24 @@ class Post extends Model
 
     protected $fillable = [
         'title',
-        'content',
-        'category_id'
+        'status',
+        'category_id',
+        'user_id'
     ];
 
     // Relacion uno a muchos
 
     public function user(){
-        return $this->belongsTo("App\Models\User", 'user_id');
+        return $this->belongsTo("App\Models\User", "user_id");
     }
 
     public function category()
     {
-        return $this->belongsTo('App\Models\Category', 'category_id');
+        return $this->belongsTo("App\Models\Category", "category_id");
+    }
+
+    public function res_post(){
+        return $this->hasMany("App\Models\ResPost");
     }
 
 }
