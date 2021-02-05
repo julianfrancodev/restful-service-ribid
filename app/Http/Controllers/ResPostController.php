@@ -4,17 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Models\ResPost;
 use Illuminate\Http\Request;
+use App\Helpers\JwtAuth;
+
 
 class ResPostController extends Controller
 {
+
+    /*
+
+    todo: create method that return Respost (pdf) to show to all users
+
+    */
 
     // public function getResPostByPost($id){
 
     // }
 
     public function store(Request $request){
+
         $json = $request->input("json",null);
+
         $params = json_decode($json);
+
         $params_array = json_decode($json, true);
 
         if(!empty($params_array)){
@@ -94,9 +105,9 @@ class ResPostController extends Controller
     }
 
 
-    // Function that provides get image
+    // Function that provides file localted in framework storage
 
-    public function getImage($filename)
+    public function getFile($filename)
     {
         $isset = \Storage::disk('docs')->exists($filename);
 
@@ -114,6 +125,16 @@ class ResPostController extends Controller
         }
 
         return response()->json($data, $data['code']);
+    }
+
+
+    private function getIdentity($request)
+    {
+        $jwtAuth = new JwtAuth();
+        $token = $request->header('Authorization');
+        $user = $jwtAuth->checkToken($token, true);
+
+        return $user;
     }
 
 }
