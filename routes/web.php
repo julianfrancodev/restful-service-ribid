@@ -52,6 +52,6 @@ Route::get('post/user/{id}',[PostController::class,'getPostsByUser']);
 
 Route::resource('respost', ResPostController::class);
 //todo: uncomment this line for enable the controller function
-// Route::get('respost/getResPostByPost/{id}', ResPostController::class,'getResPostByPost');
+Route::get('respost/getrespostbypost/{id}', [ResPostController::class,'getResPostByPost']);
 Route::post('respost/upload/',[ResPostController::class, 'upload']);
 Route::get('respost/file/{filename}',[ResPostController::class, 'getFile']);

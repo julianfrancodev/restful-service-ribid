@@ -4,21 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Models\ResPost;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Helpers\JwtAuth;
 
 
 class ResPostController extends Controller
 {
 
-    /*
+    public function getResPostByPost($id){
 
-    todo: create method that return Respost (pdf) to show to all users
+        $respost = ResPost::where("post_id_res",$id)->get();
 
-    */
 
-    // public function getResPostByPost($id){
+        return response()->json([
 
-    // }
+            "success" => "success",
+            "respost" => $respost
+        ],200);
+
+    }
 
     public function store(Request $request){
 
