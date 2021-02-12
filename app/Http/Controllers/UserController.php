@@ -35,7 +35,7 @@ class UserController extends Controller
                 'email.regex' => 'Agradecemos su interes en utilizar nuestro sistema. Sin embargo, por el momento ofrecemos este servicio a universidades',
             );
             $validate = \Validator::make($params_array, [
-                'name' => 'required|alpha',
+                'name' => 'required',
                 'email' => 'required|email|max:255|unique:users|regex:/(.*).edu\.co$/i',
                 'password' => 'required'
             ], $messages);
