@@ -18,7 +18,7 @@ class ResPostController extends Controller
 
         return response()->json([
 
-            "success" => "success",
+            "status" => "success",
             "respost" => $respost
         ],200);
 
