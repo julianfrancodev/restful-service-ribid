@@ -32,7 +32,8 @@ class UserController extends Controller
             // TODO Validate all fields
 
             $messages = array(
-                'email.regex' => 'Agradecemos su interes en utilizar nuestro sistema. Sin embargo, por el momento ofrecemos este servicio a universidades',
+                'email.regex' => 'Por el momento ofrecemos este servicio a universidades',
+                'email.unique'=> 'El Email ya ha sido registrado'
             );
             $validate = \Validator::make($params_array, [
                 'name' => 'required',
