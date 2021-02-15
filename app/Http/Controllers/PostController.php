@@ -17,19 +17,32 @@ class PostController extends Controller
             'show',
             'getImage',
             'getPostsByCategory',
-            'getPostsByUser'
+            'getPostsByUser',
+            'getRandomPosts'
         ]]);
     }
 
     public function index()
     {
-        $posts = Post::all()->load('user')->load('category');
+
+        $posts = Post::inRandomOrder()->get()->load("category");
 
         return response()->json([
             'code' => 200,
             'status' => 'success',
             'posts' => $posts
         ], 200);
+    }
+
+    public function getRandomPosts(){
+        $posts = Post::inRandomOrder()->limit(2)->get()->load("category");
+
+        return response()->json([
+            'code' => 200,
+            'status' => 'success',
+            'posts' => $posts
+        ], 200);
+
     }
 
     public function show($id)

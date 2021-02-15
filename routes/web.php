@@ -28,12 +28,12 @@ Route::get('pruebas/', [PruebaController::class, 'index']);
 Route::get('testorm/', [PruebaController::class, 'testOrm']);
 
 //** api-routes users
-Route::post('user/register/',[UserController::class, 'register']);
-Route::post('user/login/',[UserController::class, 'login']);
-Route::put('user/update/',[UserController::class, 'update']);
-Route::post('user/upload/',[UserController::class, 'upload'])->middleware(ApiAuthMiddleware::class);
-Route::get('user/avatar/{filename}',[UserController::class, 'getImage']);
-Route::get('user/detail/{id}',[UserController::class, 'detail']);
+Route::post('user/register/', [UserController::class, 'register']);
+Route::post('user/login/', [UserController::class, 'login']);
+Route::put('user/update/', [UserController::class, 'update']);
+Route::post('user/upload/', [UserController::class, 'upload'])->middleware(ApiAuthMiddleware::class);
+Route::get('user/avatar/{filename}', [UserController::class, 'getImage']);
+Route::get('user/detail/{id}', [UserController::class, 'detail']);
 
 
 //** Routes for categories */
@@ -44,14 +44,14 @@ Route::resource('/category', CategoryController::class);
 
 Route::resource('/post', PostController::class);
 
-Route::get('post/category/{id}',[PostController::class,'getPostsByCategory']);
-Route::get('post/user/{id}',[PostController::class,'getPostsByUser']);
-
+Route::get('post/category/{id}', [PostController::class,'getPostsByCategory']);
+Route::get('post/user/{id}', [PostController::class,'getPostsByUser']);
+Route::get('post/getrandom/posts', [PostController::class,'getRandomPosts']);
 
 //** Routes for respost */
 
 Route::resource('respost', ResPostController::class);
 //todo: uncomment this line for enable the controller function
 Route::get('respost/getrespostbypost/{id}', [ResPostController::class,'getResPostByPost']);
-Route::post('respost/upload/',[ResPostController::class, 'upload']);
-Route::get('respost/file/{filename}',[ResPostController::class, 'getFile']);
+Route::post('respost/upload/', [ResPostController::class, 'upload']);
+Route::get('respost/file/{filename}', [ResPostController::class, 'getFile']);
