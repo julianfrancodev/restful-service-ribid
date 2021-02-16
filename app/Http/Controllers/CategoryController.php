@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\Category;
+use Illuminate\Support\Facades\Validator;
+
 
 class CategoryController extends Controller
 {
@@ -51,7 +53,7 @@ class CategoryController extends Controller
         $json = $request->input('json', null);
         $array_params = json_decode($json, true);
 
-        $validate = \Validator::make($array_params, [
+        $validate = Validator::make($array_params, [
             'name' => 'required'
         ]);
 
@@ -84,7 +86,7 @@ class CategoryController extends Controller
 
 
         if (!empty($params_array)) {
-            $validate = \Validator::make($params_array, [
+            $validate = Validator::make($params_array, [
                 'name' => 'required'
             ]);
 

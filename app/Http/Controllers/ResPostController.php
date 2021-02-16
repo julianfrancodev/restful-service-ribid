@@ -6,6 +6,9 @@ use App\Models\ResPost;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Helpers\JwtAuth;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 
 class ResPostController extends Controller
@@ -37,11 +40,13 @@ class ResPostController extends Controller
             $user = $this->getIdentity($request);
 
 
-            $validate = \Validator::make($params_array,[
+            $validate = Validator::make($params_array,[
                 "file_res"=> "required",
                 "user_id_res"=> "required",
                 "post_id_res" => "required"
             ]);
+
+
 
             if($validate->fails()){
                 $data = array(
@@ -84,7 +89,7 @@ class ResPostController extends Controller
     {
         $file = $request->file('file0');
 
-        $validate = \Validator::make($request->all(), [
+        $validate = Validator::make($request->all(), [
             'file0' => 'required|file|mimes:pdf'
         ]);
 
@@ -96,8 +101,7 @@ class ResPostController extends Controller
             );
         } else {
             $file_name = time() . $file->getClientOriginalName();
-            \Storage::disk('docs')->put($file_name, \File::get($file));
-
+            Storage::disk('docs')->put($file_name, File::get($file));
             $data = array(
                 'code' => 200,
                 'status' => 'success',
@@ -113,11 +117,11 @@ class ResPostController extends Controller
 
     public function getFile($filename)
     {
-        $isset = \Storage::disk('docs')->exists($filename);
+        $isset = Storage::disk('docs')->exists($filename);
 
         if ($isset) {
 
-            $file = \Storage::disk('docs')->get($filename);
+            $file = Storage::disk('docs')->get($filename);
 
             return new Response($file, 200);
         } else {

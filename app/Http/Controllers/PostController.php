@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\Post;
 use App\Helpers\JwtAuth;
+use Illuminate\Support\Facades\Validator;
+
 
 
 class PostController extends Controller
@@ -74,7 +76,7 @@ class PostController extends Controller
         if (!empty($params_array)) {
             $user = $this->getIdentity($request);
 
-            $validate = \Validator::make($params_array, [
+            $validate = Validator::make($params_array, [
                 'title' => 'required',
                 'category_id' => 'required',
             ]);
@@ -118,7 +120,7 @@ class PostController extends Controller
 
 
 
-            $validate = \Validator::make($params_array, [
+            $validate = Validator::make($params_array, [
                 'title' => 'required',
                 'content' => 'required',
                 'category_id' => 'required'

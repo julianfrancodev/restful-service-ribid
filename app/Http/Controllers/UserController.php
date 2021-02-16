@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 
 use App\Models\User;
 
@@ -35,7 +36,7 @@ class UserController extends Controller
                 'email.regex' => 'Por el momento ofrecemos este servicio a universidades',
                 'email.unique'=> 'El Email ya ha sido registrado'
             );
-            $validate = \Validator::make($params_array, [
+            $validate = Validator::make($params_array, [
                 'name' => 'required',
                 'email' => 'required|email|max:255|unique:users|regex:/(.*).edu\.co$/i',
                 'password' => 'required'
@@ -94,7 +95,7 @@ class UserController extends Controller
 
         //TODO validate data
 
-        $validate = \Validator::make($params_array, [
+        $validate = Validator::make($params_array, [
             'email' => 'required|email',
             'password' => 'required'
         ]);
@@ -147,7 +148,7 @@ class UserController extends Controller
             $messages = array(
                 'email.regex' => 'Agradecemos su interes en utilizar nuestro sistema. Sin embargo, por el momento ofrecemos este servicio a universidades',
             );
-            $validate = \Validator::make($params_array, [
+            $validate = Validator::make($params_array, [
                 'name' => 'required|alpha',
                 'email' => 'required|email|max:255|unique:users|regex:/(.*).edu\.co$/i',
                 'password' => 'required'
@@ -192,7 +193,7 @@ class UserController extends Controller
 
         //TODO validate image
 
-        $validate = \Validator::make($request->all(), [
+        $validate = Validator::make($request->all(), [
             'file0' => 'required|image|mimes:jpg,jpeg,png,gif'
         ]);
 
