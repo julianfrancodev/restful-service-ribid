@@ -223,6 +223,7 @@ class UserController extends Controller
 
         $isset = \Storage::disk('users')->get($filename);
 
+
         if ($isset) {
             $file = \Storage::disk('users')->get($filename);
             return new Response($file, 200);
