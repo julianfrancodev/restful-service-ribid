@@ -20,7 +20,8 @@ class PostController extends Controller
             'getImage',
             'getPostsByCategory',
             'getPostsByUser',
-            'getRandomPosts'
+            'getRandomPosts',
+            'pagination'
         ]]);
     }
 
@@ -45,6 +46,16 @@ class PostController extends Controller
             'posts' => $posts
         ], 200);
 
+    }
+
+
+    public function pagination(){
+        $posts = Post::inRandomOrder()->with("category")->paginate(5);
+        return response()->json([
+            'code' => 200,
+            'status' => 'success',
+            'posts' => $posts
+        ], 200);
     }
 
     public function show($id)

@@ -47,11 +47,13 @@ Route::resource('/post', PostController::class);
 Route::get('post/category/{id}', [PostController::class,'getPostsByCategory']);
 Route::get('post/user/{id}', [PostController::class,'getPostsByUser']);
 Route::get('post/getrandom/posts', [PostController::class,'getRandomPosts']);
+Route::get('post/pagination/posts', [PostController::class,'pagination']);
+
 
 //** Routes for respost */
 
 Route::resource('respost', ResPostController::class);
-//todo: uncomment this line for enable the controller function
 Route::get('respost/getrespostbypost/{id}', [ResPostController::class,'getResPostByPost']);
 Route::post('respost/upload/', [ResPostController::class, 'upload']);
+Route::put('respost/update/', [UserController::class, 'update']);
 Route::get('respost/file/{filename}', [ResPostController::class, 'getFile']);

@@ -83,6 +83,63 @@ class ResPostController extends Controller
     }
 
 
+    public function update(Request $request){
+
+        $token = $request->header('Authorization');
+
+        $jwtAuth = new JwtAuth();
+
+        $checkToken = $jwtAuth->checkToken($token);
+
+        $json = $request->input('json', null);
+        $params_array = json_decode($json, true);
+
+        $params = json_decode($json);
+
+        unset($params_array['id']);
+        unset($params_array['created_at']);
+
+
+        if ($checkToken && !empty($params_array)) {
+
+            $validate = Validator::make($params_array,[
+                "file_res"=> "required",
+                "user_id_res"=> "required",
+                "post_id_res" => "required"
+            ]);
+
+            if(!$validate->fails()){
+
+                $respost = ResPost::where('post_id_res', $params->post_id_res)->update($params_array);
+
+                $data = array(
+                    'code' => 200,
+                    'status' => 'success',
+                    'respost' => $respost,
+                    'changes' => $params_array
+                );
+
+            }else{
+                $data = array(
+                    'code' => 400,
+                    'status' => 'error',
+                    'message' => 'Fallo en la validacion de los datos'
+                );
+            }
+
+        } else {
+            $data = array(
+                'code' => 400,
+                'status' => 'error',
+                'message' => 'Usuario no autenticado o json invalido'
+            );
+        }
+
+        return response()->json($data, $data['code']);
+
+    }
+
+
     // Validate to upload the file
 
     public function upload(Request $request)

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\JwtAuth;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 use App\Models\User;
@@ -34,7 +37,7 @@ class UserController extends Controller
 
             $messages = array(
                 'email.regex' => 'Por el momento ofrecemos este servicio a universidades',
-                'email.unique'=> 'El Email ya ha sido registrado'
+                'email.unique' => 'El Email ya ha sido registrado'
             );
             $validate = Validator::make($params_array, [
                 'name' => 'required',
@@ -53,7 +56,7 @@ class UserController extends Controller
 
                 // TODO cypher the password
 
-                $pwd =  hash('sha256', $params_array['password']);
+                $pwd = hash('sha256', $params_array['password']);
                 // TODO Register the user
 
                 $user = new User();
@@ -85,7 +88,7 @@ class UserController extends Controller
     public function login(Request $request)
     {
 
-        $jwtAuth = new \JwtAuth();
+        $jwtAuth = new JwtAuth();
 
 
         //TODO get data from post
@@ -109,7 +112,7 @@ class UserController extends Controller
             );
         } else {
             //TODO return token
-            $pwd =  hash('sha256', $params->password);
+            $pwd = hash('sha256', $params->password);
             $signup = $jwtAuth->signup($params->email, $pwd);
 
             if (!empty($params->gettoken)) {
@@ -118,20 +121,17 @@ class UserController extends Controller
         }
 
 
-
         return response()->json($signup, 200);
     }
 
     public function update(Request $request)
     {
 
-
-        // TODO valide if user auth
         $token = $request->header('Authorization');
-        $jwtAuth = new \JwtAuth();
+
+        $jwtAuth = new JwtAuth();
 
         $checkToken = $jwtAuth->checkToken($token);
-        //TODO get all data from Post
 
         $json = $request->input('json', null);
         $params_array = json_decode($json, true);
@@ -200,7 +200,7 @@ class UserController extends Controller
         //TODO save file
         if ($image || !$validate . fails()) {
             $image_name = time() . $image->getClientOriginalName();
-            \Storage::disk('users')->put($image_name, \File::get($image));
+            Storage::disk('users')->put($image_name, File::get($image));
 
             $data = array(
                 'code' => 200,
@@ -221,11 +221,10 @@ class UserController extends Controller
     public function getImage($filename)
     {
 
-        $isset = \Storage::disk('users')->get($filename);
-
+        $isset = Storage::disk('users')->get($filename);
 
         if ($isset) {
-            $file = \Storage::disk('users')->get($filename);
+            $file = Storage::disk('users')->get($filename);
             return new Response($file, 200);
         } else {
             $data = array(
