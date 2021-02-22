@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use App\Models\ResPost;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -14,66 +15,80 @@ use Illuminate\Support\Facades\Validator;
 class ResPostController extends Controller
 {
 
-    public function getResPostByPost($id){
+    public function getResPostByPost($id)
+    {
 
-        $respost = ResPost::where("post_id_res",$id)->get();
+        $respost = ResPost::where("post_id_res", $id)->get();
 
 
         return response()->json([
 
             "status" => "success",
             "respost" => $respost
-        ],200);
+        ], 200);
 
     }
 
-    public function store(Request $request){
+    public function getPostByAdminResPost($userId)
+    {
 
-        $json = $request->input("json",null);
+        $respost = ResPost::where("user_id_res", $userId)->with('post','post.category')->paginate(4);
+
+        return response()->json([
+
+            "status" => "success",
+            "respost" => $respost
+        ], 200);
+    }
+
+    public function store(Request $request)
+    {
+
+        $json = $request->input("json", null);
 
         $params = json_decode($json);
 
         $params_array = json_decode($json, true);
 
-        if(!empty($params_array)){
+        if (!empty($params_array)) {
 
             $user = $this->getIdentity($request);
 
 
-            $validate = Validator::make($params_array,[
-                "file_res"=> "required",
-                "user_id_res"=> "required",
+            $validate = Validator::make($params_array, [
+                "file_res" => "required",
+                "user_id_res" => "required",
                 "post_id_res" => "required"
             ]);
 
-
-
-            if($validate->fails()){
+            if ($validate->fails()) {
                 $data = array(
-                    "code"=> 400,
-                    "status"=> "error",
-                    "message"=> "Validacion fallida en los datos."
+                    "code" => 400,
+                    "status" => "error",
+                    "message" => "Validacion fallida en los datos."
                 );
-            }else{
+            } else {
                 $respost = new ResPost();
                 $respost->user_id_res = $user->sub;
                 $respost->post_id_res = $params->post_id_res;
                 $respost->file_res = $params->file_res;
 
+                Post::where("id", $params->post_id_res)->update(array('status' => 'COMPLETO'));
+
                 $respost->save();
 
                 $data = array(
-                    "code"=> 200,
-                    "status"=> "success",
+                    "code" => 200,
+                    "status" => "success",
                     "respost" => $respost
                 );
 
             }
-        }else{
+        } else {
             $data = array(
-                "code"=> 400,
-                "status"=> "error",
-                "message"=> "Params array error"
+                "code" => 400,
+                "status" => "error",
+                "message" => "Params array error"
             );
         }
 
@@ -83,7 +98,8 @@ class ResPostController extends Controller
     }
 
 
-    public function update(Request $request){
+    public function update(Request $request)
+    {
 
         $token = $request->header('Authorization');
 
@@ -102,13 +118,13 @@ class ResPostController extends Controller
 
         if ($checkToken && !empty($params_array)) {
 
-            $validate = Validator::make($params_array,[
-                "file_res"=> "required",
-                "user_id_res"=> "required",
+            $validate = Validator::make($params_array, [
+                "file_res" => "required",
+                "user_id_res" => "required",
                 "post_id_res" => "required"
             ]);
 
-            if(!$validate->fails()){
+            if (!$validate->fails()) {
 
                 $respost = ResPost::where('post_id_res', $params->post_id_res)->update($params_array);
 
@@ -119,7 +135,7 @@ class ResPostController extends Controller
                     'changes' => $params_array
                 );
 
-            }else{
+            } else {
                 $data = array(
                     'code' => 400,
                     'status' => 'error',

@@ -9,7 +9,6 @@ use App\Helpers\JwtAuth;
 use Illuminate\Support\Facades\Validator;
 
 
-
 class PostController extends Controller
 {
     public function __construct()
@@ -21,14 +20,16 @@ class PostController extends Controller
             'getPostsByCategory',
             'getPostsByUser',
             'getRandomPosts',
-            'pagination'
+            'pagination',
+            'getPendingPost',
+            'getPostByUser',
+            'getPostsBySearch'
         ]]);
     }
 
     public function index()
     {
-
-        $posts = Post::inRandomOrder()->get()->load("category");
+        $posts = Post::inRandomOrder()->with("category")->paginate(5);
 
         return response()->json([
             'code' => 200,
@@ -37,7 +38,8 @@ class PostController extends Controller
         ], 200);
     }
 
-    public function getRandomPosts(){
+    public function getRandomPosts()
+    {
         $posts = Post::inRandomOrder()->limit(2)->get()->load("category");
 
         return response()->json([
@@ -48,9 +50,10 @@ class PostController extends Controller
 
     }
 
+    public function getPendingPost()
+    {
+        $posts = Post::where("status", "PENDIENTE")->with("category")->paginate(5);
 
-    public function pagination(){
-        $posts = Post::inRandomOrder()->with("category")->paginate(5);
         return response()->json([
             'code' => 200,
             'status' => 'success',
@@ -130,7 +133,6 @@ class PostController extends Controller
         if (!empty($params_array)) {
 
 
-
             $validate = Validator::make($params_array, [
                 'title' => 'required',
                 'content' => 'required',
@@ -184,7 +186,6 @@ class PostController extends Controller
         $post = Post::where('id', $id)->where('user_id', $user->sub)->first();
 
 
-
         if (!empty($post)) {
 
             $post->delete();
@@ -209,7 +210,7 @@ class PostController extends Controller
 
     public function getPostsByCategory($id)
     {
-        $posts = Post::where('category_id', $id)->get();
+        $posts = Post::where('category_id', $id)->with("category")->paginate(5);
 
         return response()->json([
             'status' => 'success',
@@ -219,12 +220,23 @@ class PostController extends Controller
 
     public function getPostsByUser($id)
     {
-        $posts = Post::where('user_id', $id)->get();
+        $posts = Post::where('user_id', $id)->with("category")->paginate(4);
 
         return response()->json([
             'status' => 'success',
             'posts' => $posts
         ], 200);
+    }
+
+    public function getPostsBySearch($search){
+
+        $posts = Post::where('title','ilike',"%$search%")->limit(6)->get();
+
+        return response()->json([
+            'status' => 'success',
+            'posts' => $posts
+        ], 200);
+
     }
 
     private function getIdentity($request)
