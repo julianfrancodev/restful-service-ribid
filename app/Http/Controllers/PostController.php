@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use App\Models\Post;
 use App\Helpers\JwtAuth;
 use Illuminate\Support\Facades\Validator;
+use function PHPUnit\Framework\isEmpty;
 
 
 class PostController extends Controller
@@ -228,7 +229,9 @@ class PostController extends Controller
         ], 200);
     }
 
-    public function getPostsBySearch($search){
+    public function getPostsBySearch(Request $request){
+
+        $search = $request->input('search', null);
 
         $posts = Post::where('title','ilike',"%$search%")->limit(6)->get();
 

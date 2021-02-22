@@ -44,17 +44,17 @@ Route::resource('/category', CategoryController::class);
 
 Route::resource('/post', PostController::class);
 
-Route::get('post/category/{id}', [PostController::class,'getPostsByCategory']);
-Route::get('post/user/{id}', [PostController::class,'getPostsByUser']);
-Route::get('post/getrandom/posts', [PostController::class,'getRandomPosts']);
-Route::get('post/user/get/pending',[PostController::class,'getPendingPost']);
-Route::get('post/search/{search}',[PostController::class,'getPostsBySearch']);
+Route::get('post/category/{id}', [PostController::class, 'getPostsByCategory']);
+Route::get('post/user/{id}', [PostController::class, 'getPostsByUser']);
+Route::get('post/getrandom/posts', [PostController::class, 'getRandomPosts']);
+Route::get('post/user/get/pending', [PostController::class, 'getPendingPost']);
+Route::get('post/search/posts', [PostController::class, 'getPostsBySearch']);
 
 //** Routes for respost */
 
 Route::resource('respost', ResPostController::class);
-Route::get('respost/getrespostbypost/{id}', [ResPostController::class,'getResPostByPost']);
-Route::get('respost/getPostByAdminResPost/{id}',[ResPostController::class,'getPostByAdminResPost']);
+Route::get('respost/getrespostbypost/{id}', [ResPostController::class, 'getResPostByPost']);
+Route::get('respost/getPostByAdminResPost/{id}', [ResPostController::class, 'getPostByAdminResPost']);
 Route::post('respost/upload/', [ResPostController::class, 'upload']);
 Route::put('respost/update/', [UserController::class, 'update']);
 Route::get('respost/file/{filename}', [ResPostController::class, 'getFile']);
