@@ -30,7 +30,7 @@ class PostController extends Controller
 
     public function index()
     {
-        $posts = Post::inRandomOrder()->with("category")->paginate(5);
+        $posts = Post::inRandomOrder()->with("category")->paginate(4);
 
         return response()->json([
             'code' => 200,
@@ -53,7 +53,7 @@ class PostController extends Controller
 
     public function getPendingPost()
     {
-        $posts = Post::where("status", "PENDIENTE")->with("category")->paginate(5);
+        $posts = Post::where("status", "PENDIENTE")->with("category")->paginate(4);
 
         return response()->json([
             'code' => 200,
@@ -211,7 +211,7 @@ class PostController extends Controller
 
     public function getPostsByCategory($id)
     {
-        $posts = Post::where('category_id', $id)->with("category")->paginate(5);
+        $posts = Post::where('category_id', $id)->with("category")->paginate(4);
 
         return response()->json([
             'status' => 'success',
