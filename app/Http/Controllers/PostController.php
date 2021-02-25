@@ -30,7 +30,7 @@ class PostController extends Controller
 
     public function index()
     {
-        $posts = Post::inRandomOrder()->with("category")->paginate(4);
+        $posts = Post::inRandomOrder()->where('status','COMPLETO')->with("category")->paginate(4);
 
         return response()->json([
             'code' => 200,
@@ -41,7 +41,7 @@ class PostController extends Controller
 
     public function getRandomPosts()
     {
-        $posts = Post::inRandomOrder()->limit(2)->get()->load("category");
+        $posts = Post::inRandomOrder()->where('status','COMPLETO')->limit(2)->get()->load("category");
 
         return response()->json([
             'code' => 200,

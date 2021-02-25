@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+
 use App\Helpers\JwtAuth;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -9,7 +11,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
-use App\Models\User;
+
 
 class UserController extends Controller
 {
@@ -63,9 +65,9 @@ class UserController extends Controller
                 $user->name = $params_array['name'];
                 $user->email = $params_array['email'];
                 $user->password = $pwd;
-                $user->role = "ROLE_USER";
 
                 $user->save();
+                $user->sendEmailVerificationNotification();
 
                 $data = array(
                     'status' => 'success',
@@ -111,13 +113,24 @@ class UserController extends Controller
                 'errors' => $validate->errors()
             );
         } else {
-            //TODO return token
-            $pwd = hash('sha256', $params->password);
-            $signup = $jwtAuth->signup($params->email, $pwd);
 
-            if (!empty($params->gettoken)) {
-                $signup = $jwtAuth->signup($params->email, $pwd, true);
+            $user = User::where('email', $params->email)->firstOrFail();
+
+            if($user->hasVerifiedEmail()){
+                $pwd = hash('sha256', $params->password);
+                $signup = $jwtAuth->signup($params->email, $pwd);
+
+                if (!empty($params->gettoken)) {
+                    $signup = $jwtAuth->signup($params->email, $pwd, true);
+                }
+            }else{
+                $signup = array(
+                    'status' => 'error',
+                    'code' => 404,
+                    'errors' => "Verifica Tu Email Para Ingresar"
+                );
             }
+
         }
 
 
@@ -154,7 +167,6 @@ class UserController extends Controller
                 'password' => 'required'
             ], $messages);
 
-            //TODO clean data
 
             unset($params_array['id']);
             unset($params_array['role']);
@@ -162,11 +174,9 @@ class UserController extends Controller
             unset($params_array['created_at']);
             unset($params_array['remember_token']);
 
-            //TODO update user
 
-            $user_update = User::where('id', $user->sub)->update($params_array);
+            User::where('id', $user->sub)->update($params_array);
 
-            // TODO return $data
 
             $data = array(
                 'code' => 200,
