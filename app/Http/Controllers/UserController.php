@@ -10,7 +10,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-
+use function PHPUnit\Framework\isEmpty;
 
 
 class UserController extends Controller
@@ -114,27 +114,36 @@ class UserController extends Controller
             );
         } else {
 
-            $user = User::where('email', $params->email)->firstOrFail();
+            $user = User::where('email', $params->email)->get();
 
-            if($user->hasVerifiedEmail()){
+            if (isset($user[0]) && $user[0]->hasVerifiedEmail()) {
                 $pwd = hash('sha256', $params->password);
-                $signup = $jwtAuth->signup($params->email, $pwd);
+                $token = $jwtAuth->signup($params->email, $pwd);
+                $signup = array(
+                    'status' => 'success',
+                    "token" => $token,
+                    "code" => 200
+                );
 
                 if (!empty($params->gettoken)) {
-                    $signup = $jwtAuth->signup($params->email, $pwd, true);
+                    $user = $jwtAuth->signup($params->email, $pwd, true);
+                    $signup = array(
+                        'status' => 'success',
+                        "user" => $user,
+                        "code" => 200
+                    );
                 }
-            }else{
+            } else {
                 $signup = array(
                     'status' => 'error',
                     'code' => 404,
-                    'errors' => "Verifica Tu Email Para Ingresar"
+                    'message' => "Verifica Tu Email Para Ingresar"
                 );
             }
 
         }
 
-
-        return response()->json($signup, 200);
+        return response()->json($signup, $signup['code']);
     }
 
     public function update(Request $request)
