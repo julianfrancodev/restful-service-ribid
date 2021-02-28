@@ -116,29 +116,35 @@ class UserController extends Controller
 
             $user = User::where('email', $params->email)->get();
 
-            if (isset($user[0]) && $user[0]->hasVerifiedEmail()) {
+            if (!isset($user[0])) {
+                $signup = array(
+                    'status' => 'error',
+                    'code' => 404,
+                    'message' => "Email no registrado"
+                );
+            } else if (!$user[0]->hasVerifiedEmail()) {
+                $signup = array(
+                    'status' => 'error',
+                    'code' => 404,
+                    'message' => 'Email aun no verficado'
+                );
+            } else {
                 $pwd = hash('sha256', $params->password);
                 $token = $jwtAuth->signup($params->email, $pwd);
                 $signup = array(
                     'status' => 'success',
-                    "token" => $token,
-                    "code" => 200
+                    'token' => $token,
+                    'code' => 200
                 );
 
                 if (!empty($params->gettoken)) {
                     $user = $jwtAuth->signup($params->email, $pwd, true);
                     $signup = array(
                         'status' => 'success',
-                        "user" => $user,
-                        "code" => 200
+                        'user' => $user,
+                        'code' => 200
                     );
                 }
-            } else {
-                $signup = array(
-                    'status' => 'error',
-                    'code' => 404,
-                    'message' => "Verifica Tu Email Para Ingresar"
-                );
             }
 
         }

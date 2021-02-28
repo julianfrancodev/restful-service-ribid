@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class VerificationController extends Controller
 {
@@ -11,12 +12,9 @@ class VerificationController extends Controller
 
     public function verify($user_id, Request $request){
         if(!$request->hasValidSignature()){
-            return response()->json([
-                'status' => 'error',
-                'message'=>'Email de verificacion invalido',
-                'code' => 400
 
-            ], 200);
+            return Redirect::to("http://localhost:4200/?verification=4cc4d88f6c66ab68e21fad5a70b75c69");
+
         }
 
         $user = User::findOrFail($user_id);
@@ -25,12 +23,9 @@ class VerificationController extends Controller
              $user->markEmailAsVerified();
         }
 
-        return  response()->json([
-            'status' => 'success',
-            'message'=>'Email Verificado Con Exito',
-            'code' => 200
 
-        ], 200);
+        return Redirect::to('http://localhost:4200/?verification=c1ab208ad4e235e7fb4bd8f688f4feb9');
+
     }
 
     public function resend($user_id){
@@ -39,9 +34,9 @@ class VerificationController extends Controller
 
         if($user->hasVerifiedEmail()){
             return response()->json([
-                'status' => 'info',
+                'status' => 'Accepted',
                 'message'=>'El email ya esta verificado',
-                'code' => 400
+                'code' => 202
 
             ], 200);
         }
@@ -49,11 +44,14 @@ class VerificationController extends Controller
         $user->sendEmailVerificationNotification();
 
         return response()->json([
-            'status' => 'info',
+            'status' => 'Info',
             'message'=>'Email Reenviado Para Verificacion',
             'code' => 200
 
         ], 200);
+
     }
+
+
 
 }

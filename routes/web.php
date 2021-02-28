@@ -24,10 +24,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('pruebas/', [PruebaController::class, 'index']);
-
-Route::get('testorm/', [PruebaController::class, 'testOrm']);
-
 //** api-routes users
 Route::post('user/register/', [UserController::class, 'register']);
 Route::post('user/login/', [UserController::class, 'login']);
