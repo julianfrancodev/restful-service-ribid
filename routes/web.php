@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PruebaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PostController;
@@ -33,7 +32,6 @@ Route::get('user/avatar/{filename}', [UserController::class, 'getImage']);
 Route::get('user/detail/{id}', [UserController::class, 'detail']);
 Route::get('email/verify/{id}',[VerificationController::class,'verify'])->name('verification.verify');
 Route::get('email/resend/{id}',[VerificationController::class,'resend'])->name('verification.resend');
-
 
 
 //** Routes for categories */

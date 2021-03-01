@@ -126,7 +126,7 @@ class UserController extends Controller
                 $signup = array(
                     'status' => 'error',
                     'code' => 404,
-                    'message' => 'Email aun no verficado'
+                    'message' => 'Email aun no verificado'
                 );
             } else {
                 $pwd = hash('sha256', $params->password);

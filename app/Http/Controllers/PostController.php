@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PostPublished;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Models\Post;
 use App\Helpers\JwtAuth;
 use Illuminate\Support\Facades\Validator;
-use function PHPUnit\Framework\isEmpty;
 
 
 class PostController extends Controller
@@ -108,6 +107,8 @@ class PostController extends Controller
                 $post->category_id = $params->category_id;
                 $post->title = $params->title;
                 $post->save();
+
+                event(new PostPublished($post));
 
                 $data = array(
                     'code' => 200,
