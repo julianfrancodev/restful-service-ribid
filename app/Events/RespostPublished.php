@@ -15,32 +15,26 @@ class RespostPublished implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $respost;
+    public $post;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($respost)
+    public function __construct( $post)
     {
-        //
-        $this->respost = $respost;
+        $this->post = $post;
     }
 
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return \Illuminate\Broadcasting\Channel|array
-     * todo: change this for a Private Channel
-     */
+
     public function broadcastOn()
     {
-        return new PrivateChannel('respost');
+        return new Channel('resposts');
     }
 
     public function broadcastWith(){
         return [
-            'post_id_res' => $this->respost->post_id_res,
+            'title' => $this->post->title,
         ];
     }
 }

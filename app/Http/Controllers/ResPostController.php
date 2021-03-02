@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\RespostPublished;
 use App\Models\Post;
 use App\Models\ResPost;
 use Illuminate\Http\Request;
@@ -75,7 +76,11 @@ class ResPostController extends Controller
 
                 Post::where("id", $params->post_id_res)->update(array('status' => 'COMPLETO'));
 
+                $post = Post::findOrFail($respost->post_id_res);
+
                 $respost->save();
+
+                event(new RespostPublished($post));
 
                 $data = array(
                     "code" => 200,
