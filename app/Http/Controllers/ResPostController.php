@@ -42,6 +42,14 @@ class ResPostController extends Controller
         ], 200);
     }
 
+    public function getCountPostsByAdminRepost($userId){
+        $respost = ResPost::where("user_id_res", $userId)->with('post','post.category')->count();
+        return response()->json([
+            "status" => "success",
+            "respost" => $respost
+        ], 200);
+    }
+
     public function store(Request $request)
     {
 
@@ -160,8 +168,6 @@ class ResPostController extends Controller
 
     }
 
-
-    // Validate to upload the file
 
     public function upload(Request $request)
     {

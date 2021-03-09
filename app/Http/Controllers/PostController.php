@@ -23,13 +23,17 @@ class PostController extends Controller
             'pagination',
             'getPendingPost',
             'getPostByUser',
-            'getPostsBySearch'
+            'getPostsBySearch',
+            'getCompletePost',
+            'getCountCompletePosts',
+            'getCountIncompletePosts',
+            'getAllImcompletePosts'
         ]]);
     }
 
     public function index()
     {
-        $posts = Post::inRandomOrder()->where('status','COMPLETO')->with("category")->paginate(4);
+        $posts = Post::inRandomOrder()->where('status', 'COMPLETO')->with("category")->paginate(4);
 
         return response()->json([
             'code' => 200,
@@ -40,7 +44,7 @@ class PostController extends Controller
 
     public function getRandomPosts()
     {
-        $posts = Post::inRandomOrder()->where('status','COMPLETO')->limit(2)->get()->load("category");
+        $posts = Post::inRandomOrder()->where('status', 'COMPLETO')->limit(2)->get()->load("category");
 
         return response()->json([
             'code' => 200,
@@ -53,6 +57,53 @@ class PostController extends Controller
     public function getPendingPost()
     {
         $posts = Post::where("status", "PENDIENTE")->with("category")->paginate(4);
+
+        return response()->json([
+            'code' => 200,
+            'status' => 'success',
+            'posts' => $posts
+        ], 200);
+    }
+
+    // todo: get complete and incomplete post by user
+
+    public function getCompletePost()
+    {
+        $posts = Post::where("status", "COMPLETO")->with("category")->paginate(4);
+
+        return response()->json([
+            'code' => 200,
+            'status' => 'success',
+            'posts' => $posts
+        ], 200);
+    }
+
+    public function getCountCompletePosts($id)
+    {
+        $posts = Post::where("status", "COMPLETO",)->where('user_id',$id)->count();
+
+        return response()->json([
+            'code' => 200,
+            'status' => 'success',
+            'posts' => $posts
+        ], 200);
+    }
+
+    public function getCountIncompletePosts($id)
+    {
+        $posts = Post::where("status", "PENDIENTE")->where('user_id',$id)->count();
+
+        return response()->json([
+            'code' => 200,
+            'status' => 'success',
+            'posts' => $posts
+        ], 200);
+    }
+
+
+    public function getAllImcompletePosts()
+    {
+        $posts = Post::where("status", "PENDIENTE")->count();
 
         return response()->json([
             'code' => 200,
@@ -106,6 +157,9 @@ class PostController extends Controller
                 $post->user_id = $user->sub;
                 $post->category_id = $params->category_id;
                 $post->title = $params->title;
+                $post->document_type_id = intval($params->document_type_id);
+                $post->section = $params->section;
+                $post->pages = $params->pages;
                 $post->save();
 
                 event(new PostPublished($post));
@@ -230,11 +284,12 @@ class PostController extends Controller
         ], 200);
     }
 
-    public function getPostsBySearch(Request $request){
+    public function getPostsBySearch(Request $request)
+    {
 
         $search = $request->input('search', null);
 
-        $posts = Post::where('title','ilike',"%$search%")->limit(6)->get();
+        $posts = Post::where('title', 'ilike', "%$search%")->limit(6)->get();
 
         return response()->json([
             'status' => 'success',

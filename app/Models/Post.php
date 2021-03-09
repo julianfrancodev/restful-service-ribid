@@ -14,10 +14,10 @@ class Post extends Model
         'title',
         'status',
         'category_id',
-        'user_id'
+        'user_id',
+        'document_type_id',
+        'section'
     ];
-
-    // Relacion uno a muchos
 
     public function user(){
         return $this->belongsTo("App\Models\User", "user_id");
@@ -28,7 +28,11 @@ class Post extends Model
         return $this->belongsTo("App\Models\Category", "category_id");
     }
 
-    public function res_post(){
+    public function documentType(){
+        return $this->belongsTo("App\Models\Category","document_type_id");
+    }
+
+    public function resPost(){
         return $this->hasMany("App\Models\ResPost");
     }
 

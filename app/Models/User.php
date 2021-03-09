@@ -19,10 +19,11 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'surname',
-        'description',
         'email',
         'password',
         'role',
+        'phone',
+        'birth_date',
         'email_verified_at',
     ];
 
@@ -49,4 +50,9 @@ class User extends Authenticatable
     public function posts(){
         return $this->hasMany('App/Models/Post');
     }
+
+    public function rol(){
+        return $this->belongsTo("App\Models\Rol", "role");
+    }
+
 }

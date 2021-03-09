@@ -34,6 +34,7 @@ class RespostPublished implements ShouldBroadcastNow
 
     public function broadcastWith(){
         return [
+            'id' => $this->post->id,
             'title' => $this->post->title,
         ];
     }

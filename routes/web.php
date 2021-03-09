@@ -6,6 +6,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ResPostController;
 use App\Http\Controllers\VerificationController;
+use App\Http\Controllers\DocumentTypeController;
+use App\Http\Controllers\RoleController;
 use App\Http\Middleware\ApiAuthMiddleware;
 
 /*
@@ -46,13 +48,27 @@ Route::get('post/category/{id}', [PostController::class, 'getPostsByCategory']);
 Route::get('post/user/{id}', [PostController::class, 'getPostsByUser']);
 Route::get('post/getrandom/posts', [PostController::class, 'getRandomPosts']);
 Route::get('post/user/get/pending', [PostController::class, 'getPendingPost']);
+Route::get('post/user/get/complete',[PostController::class,'getCompletePost']);
 Route::get('post/search/posts', [PostController::class, 'getPostsBySearch']);
+Route::get('post/count/complete/{id}',[PostController::class,'getCountCompletePosts']);
+Route::get('post/count/pending/{id}',[PostController::class,'getCountIncompletePosts']);
+Route::get('post/count/all/pending',[PostController::class,'getAllImcompletePosts']);
+
 
 //** Routes for respost */
-
 Route::resource('respost', ResPostController::class);
 Route::get('respost/getrespostbypost/{id}', [ResPostController::class, 'getResPostByPost']);
 Route::get('respost/getPostByAdminResPost/{id}', [ResPostController::class, 'getPostByAdminResPost']);
 Route::post('respost/upload/', [ResPostController::class, 'upload']);
 Route::put('respost/update/', [UserController::class, 'update']);
 Route::get('respost/file/{filename}', [ResPostController::class, 'getFile']);
+Route::get('respost/getrespost/count/{id}',[ResPostController::class,'getCountPostsByAdminRepost']);
+
+
+//** Routes for Document Type */
+
+Route::resource('document-type', DocumentTypeController::class);
+
+//** Router for Rol */
+
+Route::resource('rol', RoleController::class);
