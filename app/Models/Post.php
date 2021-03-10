@@ -29,7 +29,7 @@ class Post extends Model
     }
 
     public function documentType(){
-        return $this->belongsTo("App\Models\Category","document_type_id");
+        return $this->belongsTo("App\Models\DocumentType","document_type_id");
     }
 
     public function resPost(){

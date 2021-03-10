@@ -45,7 +45,8 @@ Route::resource('/category', CategoryController::class);
 Route::resource('/post', PostController::class);
 
 Route::get('post/category/{id}', [PostController::class, 'getPostsByCategory']);
-Route::get('post/user/{id}', [PostController::class, 'getPostsByUser']);
+Route::get('post/user/complete/{id}', [PostController::class, 'getCompletePostsByUser']);
+Route::get('post/user/pending/{id}', [PostController::class, 'getPendingPostsByUser']);
 Route::get('post/getrandom/posts', [PostController::class, 'getRandomPosts']);
 Route::get('post/user/get/pending', [PostController::class, 'getPendingPost']);
 Route::get('post/user/get/complete',[PostController::class,'getCompletePost']);
