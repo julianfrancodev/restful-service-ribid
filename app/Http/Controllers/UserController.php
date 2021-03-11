@@ -182,7 +182,7 @@ class UserController extends Controller
                 'password' => 'required'
             ], $messages);
 
-
+            unset($params_array['sub']);
             unset($params_array['id']);
             unset($params_array['role']);
             unset($params_array['password']);
