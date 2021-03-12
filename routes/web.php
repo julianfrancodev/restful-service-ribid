@@ -8,6 +8,7 @@ use App\Http\Controllers\ResPostController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\DocumentTypeController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\LibDocumentController;
 use App\Http\Middleware\ApiAuthMiddleware;
 
 /*
@@ -32,8 +33,8 @@ Route::put('user/update/', [UserController::class, 'update']);
 Route::post('user/upload/', [UserController::class, 'upload'])->middleware(ApiAuthMiddleware::class);
 Route::get('user/avatar/{filename}', [UserController::class, 'getImage']);
 Route::get('user/detail/{id}', [UserController::class, 'detail']);
-Route::get('email/verify/{id}',[VerificationController::class,'verify'])->name('verification.verify');
-Route::get('email/resend/{id}',[VerificationController::class,'resend'])->name('verification.resend');
+Route::get('email/verify/{id}', [VerificationController::class, 'verify'])->name('verification.verify');
+Route::get('email/resend/{id}', [VerificationController::class, 'resend'])->name('verification.resend');
 
 
 //** Routes for categories */
@@ -49,11 +50,11 @@ Route::get('post/user/complete/{id}', [PostController::class, 'getCompletePostsB
 Route::get('post/user/pending/{id}', [PostController::class, 'getPendingPostsByUser']);
 Route::get('post/getrandom/posts', [PostController::class, 'getRandomPosts']);
 Route::get('post/user/get/pending', [PostController::class, 'getPendingPost']);
-Route::get('post/user/get/complete',[PostController::class,'getCompletePost']);
+Route::get('post/user/get/complete', [PostController::class, 'getCompletePost']);
 Route::get('post/search/posts', [PostController::class, 'getPostsBySearch']);
-Route::get('post/count/complete/{id}',[PostController::class,'getCountCompletePosts']);
-Route::get('post/count/pending/{id}',[PostController::class,'getCountIncompletePosts']);
-Route::get('post/count/all/pending',[PostController::class,'getAllImcompletePosts']);
+Route::get('post/count/complete/{id}', [PostController::class, 'getCountCompletePosts']);
+Route::get('post/count/pending/{id}', [PostController::class, 'getCountIncompletePosts']);
+Route::get('post/count/all/pending', [PostController::class, 'getAllImcompletePosts']);
 
 
 //** Routes for respost */
@@ -63,7 +64,7 @@ Route::get('respost/getPostByAdminResPost/{id}', [ResPostController::class, 'get
 Route::post('respost/upload/', [ResPostController::class, 'upload']);
 Route::put('respost/update/', [UserController::class, 'update']);
 Route::get('respost/file/{filename}', [ResPostController::class, 'getFile']);
-Route::get('respost/getrespost/count/{id}',[ResPostController::class,'getCountPostsByAdminRepost']);
+Route::get('respost/getrespost/count/{id}', [ResPostController::class, 'getCountPostsByAdminRepost']);
 
 
 //** Routes for Document Type */
@@ -73,3 +74,7 @@ Route::resource('document-type', DocumentTypeController::class);
 //** Router for Rol */
 
 Route::resource('rol', RoleController::class);
+
+//** Router for LibDocuemnt */
+
+Route::resource('libdocument', LibDocumentController::class);

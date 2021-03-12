@@ -26,6 +26,10 @@ class ResPost extends Model
         return $this->belongsTo("App\Models\Post","post_id_res");
     }
 
+    public function libDocument(){
+        return $this->belongsTo("App\Models\LibDocument","lib_document_id");
+    }
+
 
 
 
