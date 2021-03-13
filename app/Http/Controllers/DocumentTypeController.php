@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 class DocumentTypeController extends Controller
 {
-    //
 
     public function index(){
 

@@ -17,7 +17,8 @@ class LibDocument extends Model
         'title',
         'section',
         'document_type_id',
-        'category_id'
+        'category_id',
+        'author'
     ];
 
     public function category()

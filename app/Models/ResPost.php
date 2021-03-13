@@ -15,7 +15,8 @@ class ResPost extends Model
         "id",
         "file_res",
         "user_id_res",
-        "post_id_res"
+        "post_id_res",
+        "lib_document_id"
     ];
 
     public function user(){

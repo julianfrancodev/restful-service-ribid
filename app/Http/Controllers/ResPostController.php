@@ -65,7 +65,6 @@ class ResPostController extends Controller
 
 
             $validate = Validator::make($params_array, [
-                "file_res" => "required",
                 "user_id_res" => "required",
                 "post_id_res" => "required"
             ]);
@@ -81,6 +80,7 @@ class ResPostController extends Controller
                 $respost->user_id_res = $user->sub;
                 $respost->post_id_res = $params->post_id_res;
                 $respost->file_res = $params->file_res;
+                $respost->lib_document_id =$params->lib_document_id;
 
                 Post::where("id", $params->post_id_res)->update(array('status' => 'COMPLETO'));
 
@@ -212,7 +212,7 @@ class ResPostController extends Controller
             $data = array(
                 'code' => 404,
                 'status' => 'error',
-                'message' => 'Imagen no existe.'
+                'message' => 'El Documento no existe.'
             );
         }
 
