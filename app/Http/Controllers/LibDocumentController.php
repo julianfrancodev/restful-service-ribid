@@ -40,7 +40,7 @@ class LibDocumentController extends Controller
                 $data = array(
                     "code" => 400,
                     "status" => "error",
-                    "message" => "Validacion fallida en los datos."
+                    "message" => "El archivo y todo lo demas es obligatorio"
                 );
             } else {
                 $lib_document = new LibDocument();
