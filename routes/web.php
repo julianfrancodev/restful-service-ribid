@@ -78,6 +78,7 @@ Route::resource('rol', RoleController::class);
 //** Router for LibDocuemnt */
 
 Route::resource('libdocument', LibDocumentController::class);
+Route::get('libdocument/get/libdocumentbyuser/{id}',[LibDocumentController::class,'getLibDocumentsByUser']);
 Route::post('libdocument/upload/',[LibDocumentController::class,'upload']);
 Route::get('libdocument/file/{filename}', [LibDocumentController::class, 'getFile']);
 

@@ -13,6 +13,37 @@ use Illuminate\Support\Facades\Validator;
 class LibDocumentController extends Controller
 {
 
+    public function index()
+    {
+
+        $lib_document = LibDocument::all()
+            ->load('category')
+            ->load('documentType')
+            ->load('user');
+
+        return response()->json([
+            'code' => 200,
+            'status' => 'success',
+            'libdocuments' => $lib_document
+        ], 200);
+
+    }
+
+    public function getLibDocumentsByUser($id)
+    {
+
+        $lib_documents = LibDocument::where('user_id', $id)
+            ->with('category')
+            ->with('documentType')
+            ->get();
+
+        return response()->json([
+            'code' => 200,
+            'status' => 'success',
+            'libdocuments' => $lib_documents
+        ], 200);
+    }
+
     public function store(Request $request)
     {
 
@@ -33,7 +64,7 @@ class LibDocumentController extends Controller
                 "title" => "required",
                 "document_type_id" => "required",
                 "category_id" => "required",
-                "author"=>"required"
+                "author" => "required"
             ]);
 
             if ($validate->fails()) {
