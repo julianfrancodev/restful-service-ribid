@@ -35,7 +35,7 @@ class LibDocumentController extends Controller
         $lib_documents = LibDocument::where('user_id', $id)
             ->with('category')
             ->with('documentType')
-            ->get();
+            ->paginate(4);
 
         return response()->json([
             'code' => 200,
@@ -128,27 +128,6 @@ class LibDocumentController extends Controller
                 'code' => 200,
                 'status' => 'success',
                 'file' => $file_name
-            );
-        }
-
-        return response()->json($data, $data['code']);
-    }
-
-
-    public function getFile($filename)
-    {
-        $isset = Storage::disk('docs')->exists($filename);
-
-        if ($isset) {
-
-            $file = Storage::disk('docs')->get($filename);
-
-            return new Response($file, 200);
-        } else {
-            $data = array(
-                'code' => 404,
-                'status' => 'error',
-                'message' => 'El documento no existe.'
             );
         }
 

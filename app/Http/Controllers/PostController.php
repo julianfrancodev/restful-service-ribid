@@ -34,7 +34,10 @@ class PostController extends Controller
 
     public function index()
     {
-        $posts = Post::inRandomOrder()->where('status', 'COMPLETO')->with("category")->paginate(4);
+        $posts = Post::inRandomOrder()
+            ->where('status', 'COMPLETO')
+            ->with("category")
+            ->paginate(4);
 
         return response()->json([
             'code' => 200,
@@ -45,7 +48,11 @@ class PostController extends Controller
 
     public function getRandomPosts()
     {
-        $posts = Post::inRandomOrder()->where('status', 'COMPLETO')->limit(2)->get()->load("category");
+        $posts = Post::inRandomOrder()
+            ->where('status', 'COMPLETO')
+            ->limit(2)
+            ->get()
+            ->load("category");
 
         return response()->json([
             'code' => 200,
@@ -57,7 +64,9 @@ class PostController extends Controller
 
     public function getPendingPost()
     {
-        $posts = Post::where("status", "PENDIENTE")->with("category")->paginate(4);
+        $posts = Post::where("status", "PENDIENTE")
+            ->with("category")
+            ->paginate(4);
 
         return response()->json([
             'code' => 200,
@@ -69,7 +78,9 @@ class PostController extends Controller
 
     public function getCompletePost()
     {
-        $posts = Post::where("status", "COMPLETO")->with("category")->paginate(4);
+        $posts = Post::where("status", "COMPLETO")
+            ->with("category")
+            ->paginate(4);
 
         return response()->json([
             'code' => 200,
@@ -80,7 +91,9 @@ class PostController extends Controller
 
     public function getCountCompletePosts($id)
     {
-        $posts = Post::where("status", "COMPLETO",)->where('user_id', $id)->count();
+        $posts = Post::where("status", "COMPLETO",)
+            ->where('user_id', $id)
+            ->count();
 
         return response()->json([
             'code' => 200,
@@ -91,7 +104,9 @@ class PostController extends Controller
 
     public function getCountIncompletePosts($id)
     {
-        $posts = Post::where("status", "PENDIENTE")->where('user_id', $id)->count();
+        $posts = Post::where("status", "PENDIENTE")
+            ->where('user_id', $id)
+            ->count();
 
         return response()->json([
             'code' => 200,
@@ -103,7 +118,8 @@ class PostController extends Controller
 
     public function getAllImcompletePosts()
     {
-        $posts = Post::where("status", "PENDIENTE")->count();
+        $posts = Post::where("status", "PENDIENTE")
+            ->count();
 
         return response()->json([
             'code' => 200,
@@ -114,7 +130,9 @@ class PostController extends Controller
 
     public function show($id)
     {
-        $post = Post::find($id)->load('category')->load('documentType');
+        $post = Post::find($id)
+            ->load('category')
+            ->load('documentType');
 
         if (is_object($post)) {
             $data = array(
@@ -239,7 +257,9 @@ class PostController extends Controller
 
         $user = $this->getIdentity($request);
 
-        $post = Post::where('id', $id)->where('user_id', $user->sub)->first();
+        $post = Post::where('id', $id)
+            ->where('user_id', $user->sub)
+            ->first();
 
 
         if (!empty($post)) {
@@ -266,7 +286,9 @@ class PostController extends Controller
 
     public function getPostsByCategory($id)
     {
-        $posts = Post::where('category_id', $id)->with("category")->paginate(4);
+        $posts = Post::where('category_id', $id)
+            ->with("category")
+            ->paginate(4);
 
         return response()->json([
             'status' => 'success',
@@ -276,7 +298,10 @@ class PostController extends Controller
 
     public function getCompletePostsByUser($id)
     {
-        $posts = Post::where('user_id', $id)->where('status', 'COMPLETO')->with("category")->paginate(4);
+        $posts = Post::where('user_id', $id)
+            ->where('status', 'COMPLETO')
+            ->with("category")
+            ->paginate(4);
 
         return response()->json([
             'status' => 'success',
@@ -286,7 +311,10 @@ class PostController extends Controller
 
     public function getPendingPostsByUser($id)
     {
-        $posts = Post::where('user_id', $id)->where('status', 'PENDIENTE')->with("category")->paginate(4);
+        $posts = Post::where('user_id', $id)
+            ->where('status', 'PENDIENTE')
+            ->with("category")
+            ->paginate(4);
 
         return response()->json([
             'status' => 'success',
@@ -299,7 +327,9 @@ class PostController extends Controller
 
         $search = $request->input('search', null);
 
-        $posts = Post::where('title', 'ilike', "%$search%")->limit(6)->get();
+        $posts = Post::where('title', 'ilike', "%$search%")
+            ->limit(6)
+            ->get();
 
         return response()->json([
             'status' => 'success',

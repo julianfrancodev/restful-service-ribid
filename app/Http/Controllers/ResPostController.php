@@ -19,7 +19,7 @@ class ResPostController extends Controller
     public function getResPostByPost($id)
     {
 
-        $respost = ResPost::where("post_id_res", $id)->get();
+        $respost = ResPost::where("post_id_res", $id)->with('libDocument')->get();
 
 
         return response()->json([
@@ -80,7 +80,7 @@ class ResPostController extends Controller
                 $respost->user_id_res = $user->sub;
                 $respost->post_id_res = $params->post_id_res;
                 $respost->file_res = $params->file_res;
-                $respost->lib_document_id =$params->lib_document_id;
+                $respost->lib_document_id = $params->lib_document_id;
 
                 Post::where("id", $params->post_id_res)->update(array('status' => 'COMPLETO'));
 
@@ -132,7 +132,6 @@ class ResPostController extends Controller
         if ($checkToken && !empty($params_array)) {
 
             $validate = Validator::make($params_array, [
-                "file_res" => "required",
                 "user_id_res" => "required",
                 "post_id_res" => "required"
             ]);
@@ -140,12 +139,13 @@ class ResPostController extends Controller
             if (!$validate->fails()) {
 
                 $respost = ResPost::where('post_id_res', $params->post_id_res)->update($params_array);
+                $updated_respost = ResPost::where("post_id_res", $params->post_id_res)->with('libDocument')->first();
 
                 $data = array(
                     'code' => 200,
                     'status' => 'success',
                     'respost' => $respost,
-                    'changes' => $params_array
+                    'changes' => $updated_respost
                 );
 
             } else {
