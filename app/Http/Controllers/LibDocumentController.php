@@ -16,10 +16,8 @@ class LibDocumentController extends Controller
     public function index()
     {
 
-        $lib_document = LibDocument::all()
-            ->load('category')
-            ->load('documentType')
-            ->load('user');
+        $lib_document = LibDocument::orderBy('title')
+            ->get();
 
         return response()->json([
             'code' => 200,
