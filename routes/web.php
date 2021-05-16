@@ -10,6 +10,7 @@ use App\Http\Controllers\DocumentTypeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\LibDocumentController;
 use App\Http\Middleware\ApiAuthMiddleware;
+use Illuminate\Support\Facades\Redirect;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +24,7 @@ use App\Http\Middleware\ApiAuthMiddleware;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return Redirect::to('http://ribid-api.loc/app/');
 });
 
 //** api-routes users

@@ -1,0 +1,83 @@
+{
+  "configVersion": 1,
+  "timestamp": 1620861611004,
+  "index": "http://ribid-api.loc/app/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "http://ribid-api.loc/app/favicon.ico",
+        "http://ribid-api.loc/app/index.html",
+        "http://ribid-api.loc/app/main.7c10d861fdfb2ede0a8e.js",
+        "http://ribid-api.loc/app/manifest.webmanifest",
+        "http://ribid-api.loc/app/polyfills.00bea1dc807dfac7f4b3.js",
+        "http://ribid-api.loc/app/runtime.7b63b9fd40098a2e8207.js",
+        "http://ribid-api.loc/app/scripts.19fe3561184b9e6a034f.js",
+        "http://ribid-api.loc/app/styles.12215bbc2237aa169821.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "http://ribid-api.loc/app/assets/icons/icon-128x128.png",
+        "http://ribid-api.loc/app/assets/icons/icon-144x144.png",
+        "http://ribid-api.loc/app/assets/icons/icon-152x152.png",
+        "http://ribid-api.loc/app/assets/icons/icon-192x192.png",
+        "http://ribid-api.loc/app/assets/icons/icon-384x384.png",
+        "http://ribid-api.loc/app/assets/icons/icon-512x512.png",
+        "http://ribid-api.loc/app/assets/icons/icon-72x72.png",
+        "http://ribid-api.loc/app/assets/icons/icon-96x96.png"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "http://ribid-api.loc/app/assets/icons/icon-128x128.png": "af9edfe87c26ac87f775db220142ee1eddd2c732",
+    "http://ribid-api.loc/app/assets/icons/icon-144x144.png": "2b91cadff5561957a3e2bdc013f00592c5d258b8",
+    "http://ribid-api.loc/app/assets/icons/icon-152x152.png": "c8b837df4c27436a82c413255ac040a3d9b35458",
+    "http://ribid-api.loc/app/assets/icons/icon-192x192.png": "4b02da899cf949eba366c4ba9cdd6ec2a3fbe465",
+    "http://ribid-api.loc/app/assets/icons/icon-384x384.png": "8169bc6b6db96240f6394861741df12ae4b84673",
+    "http://ribid-api.loc/app/assets/icons/icon-512x512.png": "f1d9e4ca1de3538c89b60d7be7e0a33f7b32cf25",
+    "http://ribid-api.loc/app/assets/icons/icon-72x72.png": "2abcaffb034f12c77fe7e4cd06dfde1f7cc3c97c",
+    "http://ribid-api.loc/app/assets/icons/icon-96x96.png": "fd683785dfc3c4dfef221195f9571717afe0fad3",
+    "http://ribid-api.loc/app/favicon.ico": "39d5dc16463d0ae2ee9063796aa101de5ec30eb6",
+    "http://ribid-api.loc/app/index.html": "21c53682dedf21e49f35acfaa81e1a3a5c73ba48",
+    "http://ribid-api.loc/app/main.7c10d861fdfb2ede0a8e.js": "316f09aae414c70e06f118686d16681685ec9e1b",
+    "http://ribid-api.loc/app/manifest.webmanifest": "28379dcb5282057ad6a81473bd65ffc6da903800",
+    "http://ribid-api.loc/app/polyfills.00bea1dc807dfac7f4b3.js": "aa0794c33f1e918bbdd21168bfb23990de21b5ab",
+    "http://ribid-api.loc/app/runtime.7b63b9fd40098a2e8207.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
+    "http://ribid-api.loc/app/scripts.19fe3561184b9e6a034f.js": "c497a043197d77d6c907d3e3e6312a03d0c4895c",
+    "http://ribid-api.loc/app/styles.12215bbc2237aa169821.css": "9826fa43be33cbddc791326a165bedfe4e6d1f75"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ],
+  "navigationRequestStrategy": "performance"
+}
