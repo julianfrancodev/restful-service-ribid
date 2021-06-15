@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1620861611004,
+  "timestamp": 1622591902805,
   "index": "http://ribid-api.loc/app/index.html",
   "assetGroups": [
     {
@@ -13,11 +13,11 @@
       "urls": [
         "http://ribid-api.loc/app/favicon.ico",
         "http://ribid-api.loc/app/index.html",
-        "http://ribid-api.loc/app/main.7c10d861fdfb2ede0a8e.js",
+        "http://ribid-api.loc/app/main.3cd34f53334e2a9211a6.js",
         "http://ribid-api.loc/app/manifest.webmanifest",
         "http://ribid-api.loc/app/polyfills.00bea1dc807dfac7f4b3.js",
         "http://ribid-api.loc/app/runtime.7b63b9fd40098a2e8207.js",
-        "http://ribid-api.loc/app/scripts.19fe3561184b9e6a034f.js",
+        "http://ribid-api.loc/app/scripts.37bbb14a4d5935de988f.js",
         "http://ribid-api.loc/app/styles.12215bbc2237aa169821.css"
       ],
       "patterns": []
@@ -53,12 +53,12 @@
     "http://ribid-api.loc/app/assets/icons/icon-72x72.png": "2abcaffb034f12c77fe7e4cd06dfde1f7cc3c97c",
     "http://ribid-api.loc/app/assets/icons/icon-96x96.png": "fd683785dfc3c4dfef221195f9571717afe0fad3",
     "http://ribid-api.loc/app/favicon.ico": "39d5dc16463d0ae2ee9063796aa101de5ec30eb6",
-    "http://ribid-api.loc/app/index.html": "21c53682dedf21e49f35acfaa81e1a3a5c73ba48",
-    "http://ribid-api.loc/app/main.7c10d861fdfb2ede0a8e.js": "316f09aae414c70e06f118686d16681685ec9e1b",
+    "http://ribid-api.loc/app/index.html": "e0c2aa21d40b6c1a1c741510627c4b2d5025b16b",
+    "http://ribid-api.loc/app/main.3cd34f53334e2a9211a6.js": "0bb2ec978a98c786701b89839edd1c722c812b6d",
     "http://ribid-api.loc/app/manifest.webmanifest": "28379dcb5282057ad6a81473bd65ffc6da903800",
     "http://ribid-api.loc/app/polyfills.00bea1dc807dfac7f4b3.js": "aa0794c33f1e918bbdd21168bfb23990de21b5ab",
     "http://ribid-api.loc/app/runtime.7b63b9fd40098a2e8207.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
-    "http://ribid-api.loc/app/scripts.19fe3561184b9e6a034f.js": "c497a043197d77d6c907d3e3e6312a03d0c4895c",
+    "http://ribid-api.loc/app/scripts.37bbb14a4d5935de988f.js": "27a20fec8e58ec6afd4f1a12247eba71178d1e10",
     "http://ribid-api.loc/app/styles.12215bbc2237aa169821.css": "9826fa43be33cbddc791326a165bedfe4e6d1f75"
   },
   "navigationUrls": [
