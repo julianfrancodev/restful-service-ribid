@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Redirect;
 */
 
 Route::get('/', function () {
-    return Redirect::to('http://ribid-api.loc/app/');
+    return Redirect::to('http://172.21.1.129/app/');
 });
 
 //** api-routes users

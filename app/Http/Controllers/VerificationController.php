@@ -13,7 +13,7 @@ class VerificationController extends Controller
     public function verify($user_id, Request $request){
         if(!$request->hasValidSignature()){
 
-            return Redirect::to("http://ribid-api.loc/app/#/?verification=4cc4d88f6c66ab68e21fad5a70b75c69");
+            return Redirect::to("http://172.21.1.129/app/#/?verification=4cc4d88f6c66ab68e21fad5a70b75c69");
 
         }
 
@@ -24,7 +24,7 @@ class VerificationController extends Controller
         }
 
 
-        return Redirect::to('http://ribid-api.loc/app/#/?verification=c1ab208ad4e235e7fb4bd8f688f4feb9');
+        return Redirect::to('http://172.21.1.129/app/#/?verification=c1ab208ad4e235e7fb4bd8f688f4feb9');
 
     }
 
