@@ -62,7 +62,7 @@ class UserController extends Controller
 
                 $user = new User();
                 $user->name = $params_array['name'];
-                $user->email = $params_array['email'];
+                $user->email = strtolower($params_array['email']);
                 $user->password = $pwd;
 
                 $user->save();
@@ -96,6 +96,8 @@ class UserController extends Controller
         $json = $request->input('json', null);
         $params = json_decode($json); //object
         $params_array = json_decode($json, true);
+
+        $params->email = strtolower($params->email);
 
         //TODO validate data
 
