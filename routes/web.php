@@ -5,7 +5,6 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ResPostController;
-use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\DocumentTypeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\LibDocumentController;
@@ -34,8 +33,6 @@ Route::put('user/update/', [UserController::class, 'update']);
 Route::post('user/upload/', [UserController::class, 'upload'])->middleware(ApiAuthMiddleware::class);
 Route::get('user/avatar/{filename}', [UserController::class, 'getImage']);
 Route::get('user/detail/{id}', [UserController::class, 'detail']);
-Route::get('email/verify/{id}', [VerificationController::class, 'verify'])->name('verification.verify');
-Route::get('email/resend/{id}', [VerificationController::class, 'resend'])->name('verification.resend');
 
 
 //** Routes for categories */

@@ -66,7 +66,6 @@ class UserController extends Controller
                 $user->password = $pwd;
 
                 $user->save();
-                $user->sendEmailVerificationNotification();
 
                 $data = array(
                     'status' => 'success',
@@ -122,12 +121,6 @@ class UserController extends Controller
                     'status' => 'error',
                     'code' => 404,
                     'message' => "Email no registrado"
-                );
-            } else if (!$user[0]->hasVerifiedEmail()) {
-                $signup = array(
-                    'status' => 'error',
-                    'code' => 404,
-                    'message' => 'Email aun no verificado'
                 );
             } else {
                 $pwd = hash('sha256', $params->password);
