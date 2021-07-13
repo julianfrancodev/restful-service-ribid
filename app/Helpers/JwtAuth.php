@@ -38,6 +38,7 @@ class JwtAuth
                 'surname' => $user->surname,
                 'image' => $user->image,
                 'role' => $user->role,
+                'sede'=> $user->sede,
                 'phone'=> $user->phone,
                 'birth_date' => $user->birth_date,
                 'iat' => time(),

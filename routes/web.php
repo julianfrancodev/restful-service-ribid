@@ -7,6 +7,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ResPostController;
 use App\Http\Controllers\DocumentTypeController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SedeController;
 use App\Http\Controllers\LibDocumentController;
 use App\Http\Middleware\ApiAuthMiddleware;
 use Illuminate\Support\Facades\Redirect;
@@ -22,9 +23,10 @@ use Illuminate\Support\Facades\Redirect;
 |
 */
 
-Route::get('/', function () {
-    return Redirect::to('http://172.21.1.129/app/');
-});
+//Route::get('/', function () {
+////    return Redirect::to('http://172.21.1.129/app/');
+//    return Redirect::to('http://ribid-api.loc/');
+//});
 
 //** api-routes users
 Route::post('user/register/', [UserController::class, 'register']);
@@ -46,9 +48,9 @@ Route::resource('/post', PostController::class);
 Route::get('post/category/{id}', [PostController::class, 'getPostsByCategory']);
 Route::get('post/user/complete/{id}', [PostController::class, 'getCompletePostsByUser']);
 Route::get('post/user/pending/{id}', [PostController::class, 'getPendingPostsByUser']);
-Route::get('post/getrandom/posts', [PostController::class, 'getRandomPosts']);
 Route::get('post/user/get/pending', [PostController::class, 'getPendingPost']);
 Route::get('post/user/get/complete', [PostController::class, 'getCompletePost']);
+Route::get('post/getrandom/posts', [PostController::class, 'getRandomPosts']);
 Route::get('post/search/posts', [PostController::class, 'getPostsBySearch']);
 Route::get('post/count/complete/{id}', [PostController::class, 'getCountCompletePosts']);
 Route::get('post/count/pending/{id}', [PostController::class, 'getCountIncompletePosts']);
@@ -72,6 +74,11 @@ Route::resource('document-type', DocumentTypeController::class);
 //** Router for Rol */
 
 Route::resource('rol', RoleController::class);
+
+
+//** Router for Rol */
+
+Route::resource('sede', SedeController::class);
 
 //** Router for LibDocuemnt */
 

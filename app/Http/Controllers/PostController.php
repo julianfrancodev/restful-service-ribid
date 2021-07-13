@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\PostPublished;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\User;
 use App\Helpers\JwtAuth;
 use Illuminate\Support\Facades\Validator;
 
@@ -309,12 +310,21 @@ class PostController extends Controller
         ], 200);
     }
 
+//    todo: change this function for pair sede location in request
+
     public function getPendingPostsByUser($id)
     {
+
+        $user = User::findOrFail($id);
+
         $posts = Post::where('user_id', $id)
             ->where('status', 'PENDIENTE')
+            ->whereHas('user.sede', function ($query) use ($user) {
+                $query->where('sede.id', $user->sede);
+            })
             ->with("category")
             ->paginate(4);
+
 
         return response()->json([
             'status' => 'success',

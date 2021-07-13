@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'sede',
         'phone',
         'birth_date',
         'email_verified_at',
@@ -53,6 +54,10 @@ class User extends Authenticatable
 
     public function rol(){
         return $this->belongsTo("App\Models\Rol", "role");
+    }
+
+    public function sede(){
+        return $this->belongsTo("App\Models\Sede", "sede");
     }
 
 }
